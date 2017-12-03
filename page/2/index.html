@@ -197,7 +197,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -207,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -264,6 +264,157 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://webharry.github.io/2017/08/30/RegExp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yangjie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Harry的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/30/RegExp/" itemprop="url">正则表达式学习总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T19:57:31+08:00">
+                2017-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/30/RegExp/" class="leancloud_visitors" data-flag-title="正则表达式学习总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>正则表达式的基本语法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> expression = <span class="regexp">/pattern(模式)/</span>flags(标识符);</div></pre></td></tr></table></figure></p>
+<p>pattern(模式)可以是由字符类、限定符、分组、向前查找以及反向引用。flags(标识符)取值为：i(不区分大小写)，g(全局匹配)，m(多行匹配),同一个正则表达式可以带有一个或多个flags。</p>
+<h3 id="创建正则表达式"><a href="#创建正则表达式" class="headerlink" title="创建正则表达式"></a>创建正则表达式</h3><h4 id="字面量创建"><a href="#字面量创建" class="headerlink" title="字面量创建"></a>字面量创建</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//匹配字符串中所有“at”的实例</span></div><div class="line"><span class="keyword">var</span> e = <span class="regexp">/at/g</span>;</div><div class="line"><span class="comment">//匹配第一个“bat”或“cat”,不区分大小写</span></div><div class="line"><span class="keyword">var</span> e = <span class="regexp">/[bc]at/i</span>;</div></pre></td></tr></table></figure>
+<h4 id="RegExp构造函数创建"><a href="#RegExp构造函数创建" class="headerlink" title="RegExp构造函数创建"></a>RegExp构造函数创建</h4><p>RegExp构造函数接收两个参数，第一个参数是要匹配的字符串模式，第二个是可选的标识符字符串。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//匹配第一个“bat”或“cat”,不区分大小写</span></div><div class="line"><span class="keyword">var</span> e = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"[bc]at"</span>,<span class="string">"i"</span>);</div></pre></td></tr></table></figure></p>
+<p>两种创建方式的比较：</p>
+<blockquote>
+<p>在ECMAScript3中，字面量创建和RegExp对象创建区别是：字面量创建始终会共享同一个RegExp实例，而构造函数创建的每一个RegExp实例都是一个新实例<br>ECMAScript5明确规定：使用正则表达式字面量必须像直接调用RegExp构造函数一样，每次都创建新的RegExp实例。IE9+、Firefox 4+和Chrome都做出了修改。</p>
+</blockquote>
+<p>正则表达式中的元字符必须转义。元字符有：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">( [ &#123; \ ^ $ | ) ? * + . ] &#125;</div></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//匹配第一个“[bc]at”,不区分大小写</span></div><div class="line"><span class="keyword">var</span> e = <span class="regexp">/\[bc\]at/i</span>;</div><div class="line"><span class="comment">//在RegExp构造函数创建时，元字符需要双重on转义</span></div><div class="line"><span class="keyword">var</span> e = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"\\[bc\\]at"</span>,<span class="string">"i"</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="RegExp实例的属性和方法"><a href="#RegExp实例的属性和方法" class="headerlink" title="RegExp实例的属性和方法"></a>RegExp实例的属性和方法</h3><h4 id="RegExp实例属性"><a href="#RegExp实例属性" class="headerlink" title="RegExp实例属性"></a>RegExp实例属性</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ignoreCase 返回布尔值，表示RegExp对象是否具有标志 i</div><div class="line">global 返回布尔值，表示RegExp对象是否具有表示 g</div><div class="line">multiline 返回布尔值，表示RegExp对象是否具有表示 m</div><div class="line">lastIndex 一个整数，标识开始下一次匹配的字符位置</div><div class="line">soure 返回正则表达式的原文本 （不包括反斜杠）</div><div class="line">i 执行对大小写不敏感的匹配</div><div class="line">g 执行全局匹配 （查找所有匹配而非在找到第一个匹配后停止）</div><div class="line">m 执行多行匹配</div></pre></td></tr></table></figure>
+<h4 id="字符类匹配"><a href="#字符类匹配" class="headerlink" title="字符类匹配"></a>字符类匹配</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[...]查找方括号之间的任何字符</div><div class="line">[^..]查找任何不在方括号之间的字符</div><div class="line">[a-z]查找任何从小写a到小写z的字符</div><div class="line">[A-Z]查找任何从大写A到大写Z的字符</div><div class="line">[A-z]查找任何从大写A到小写z的字符</div><div class="line">. 查找单个字符，除了换行和行结束符</div><div class="line">\w 查找单词字符，等价于 [a-zA-Z0-9]</div><div class="line">\W 查找非单词字符，等价于 [^a-zA-Z0-9]</div><div class="line">\s 查找空白字符</div><div class="line">\S 查找非空白字符</div><div class="line">\d 查找数字，等价于[0-9]</div><div class="line">\D 查找非数字字符，等价于[^0-9]</div><div class="line">\b 匹配单词边界</div><div class="line">\r 查找回车符</div><div class="line">\t 查找制表符</div><div class="line">\0 查找NULL字符</div><div class="line">\n 查找换行符</div></pre></td></tr></table></figure>
+<h4 id="重复字符匹配"><a href="#重复字符匹配" class="headerlink" title="重复字符匹配"></a>重复字符匹配</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;n,m&#125;匹配前一项至少n次，但不能超过m次</div><div class="line">&#123;n,&#125;匹配前一项n次或更多次</div><div class="line">&#123;n&#125;匹配前一项n次</div><div class="line">n?匹配前一项0次或者1次，也就是说前一项是可选的，等价于&#123;0,1&#125;</div><div class="line">n+匹配前一项一次或多次，等价于&#123;1,&#125;</div><div class="line">n*匹配前一项0次或多次，等价于&#123;0，&#125;</div><div class="line">n$匹配任何结尾为n的字符串</div><div class="line">^n匹配任何开头为n的字符串</div><div class="line">？=n匹配任何其后紧接指定字符串n的字符串</div><div class="line">?!n匹配任何其后没有紧接指定字符串n的字符串</div></pre></td></tr></table></figure>
+<h4 id="匹配特定数字"><a href="#匹配特定数字" class="headerlink" title="匹配特定数字"></a>匹配特定数字</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">^[1-9]\d*$ 匹配正整数</div><div class="line">^-[1-9]\d*$ 匹配负整数</div><div class="line">^-?[0-9]\d*$ 匹配整数</div><div class="line">^[1-9]\d*|0$ 匹配非负整数（正整数 + 0）</div><div class="line">^-[1-9]\d*|0$ 匹配非正整数（负整数 + 0）</div><div class="line">^[1-9]\d*.\d*|0.\d*[1-9]\d*$ 匹配正浮点数</div><div class="line">^-([1-9]\d*.\d*|0.\d*[1-9]\d*)$ 匹配负浮点数</div><div class="line">^-?([1-9]\d*.\d*|0.\d*[1-9]\d*|0?.0+|0)$ 匹配浮点数</div><div class="line">^[1-9]\d*.\d*|0.\d*[1-9]\d*|0?.0+|0$ 匹配非负浮点数（正浮点数 + 0）</div><div class="line">^(-([1-9]\d*.\d*|0.\d*[1-9]\d*))|0?.0+|0$ 匹配非正浮点数（负浮点数 + 0）</div></pre></td></tr></table></figure>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><h5 id="exec-方法"><a href="#exec-方法" class="headerlink" title="exec()方法"></a>exec()方法</h5><p>exec()方法为模式的捕获组而设计的，该方法接收一个参数，即要匹配的字符串，该方法返回一个包含捕获组的数组Array,如果没有捕获组匹配返回null。返回的数组Array中，第一项是与整个模式匹配的字符串，其他项是与模式中的捕获组匹配到的字符串。数组Array中还有两个参数input(返回要匹配的字符串)，index(返回匹配项在字符串中的位置)<br>模式中的捕获组就是指圆括号中的字符串。<br>exg:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> e = <span class="regexp">/do(es)(d)?/</span>;</div><div class="line">e.exec(<span class="string">"ssdoesdo"</span>);</div><div class="line"><span class="comment">/**</span></div><div class="line">array[0]:"doesd",</div><div class="line">array[1]:"es",</div><div class="line">array[2]:"d",</div><div class="line">index:2,</div><div class="line">input:"ssdoesdo"</div><div class="line">**/</div></pre></td></tr></table></figure></p>
+<p>例子中，模式中包含两个捕获组”es”、”d”，即圆括号中的字符串。</p>
+<h5 id="test-方法"><a href="#test-方法" class="headerlink" title="test()方法"></a>test()方法</h5><p>test()方法检索字符串中指定的值，该方法接收一个参数，如果字符串中含有与模式匹配的文本则返回true，否则返回false。<br>exg:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> e = <span class="regexp">/do(es)?/</span>;</div><div class="line">e.test(<span class="string">"doesdo"</span>);</div><div class="line"><span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>如果正则表达式中带有g标识符,则每一次调用test方法和exec方法都从上一次匹配结束位置开始匹配；如果正则表达式中没有g标识符，则每次调用方法都从字符串起始位置开始匹配。<br>exg:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> e = <span class="regexp">/do(es)?/g</span>;</div><div class="line">e.exec(<span class="string">"ssdoesdoesdoes"</span>);</div><div class="line"><span class="comment">/*</span></div><div class="line">array[0]:"does",</div><div class="line">array[1]:"es",</div><div class="line">index:2,</div><div class="line">input:"ssdoesdoesdoes"</div><div class="line">*/</div><div class="line">e.exec(<span class="string">"ssdoesdoesdoes"</span>);</div><div class="line"><span class="comment">/*</span></div><div class="line">array[0]:"does",</div><div class="line">array[1]:"es",</div><div class="line">index:6,</div><div class="line">input:"ssdoesdoesdoes"</div><div class="line">*/</div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> e = <span class="regexp">/do(es)?/g</span>;</div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//6</span></div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//10</span></div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//14</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> e = <span class="regexp">/do(es)?/</span>;</div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//0</span></div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//0</span></div></pre></td></tr></table></figure>
+<h3 id="常用的正则校验"><a href="#常用的正则校验" class="headerlink" title="常用的正则校验"></a>常用的正则校验</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/^<span class="number">1</span>[<span class="number">34578</span>]\d&#123;<span class="number">9</span>&#125;$/ <span class="comment">//匹配手机号</span></div><div class="line">/^(([<span class="number">0</span>\+]\d&#123;<span class="number">2</span>,<span class="number">3</span>&#125;-)?(<span class="number">0</span>\d&#123;<span class="number">2</span>,<span class="number">3</span>&#125;)-)(\d&#123;<span class="number">7</span>,<span class="number">8</span>&#125;)(-(\d&#123;<span class="number">3</span>,&#125;))?$/ <span class="comment">//匹配座机号</span></div><div class="line">/^[<span class="number">0</span><span class="number">-9</span>]\d*$/  <span class="comment">//匹配正整数</span></div><div class="line">/^\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;$/ <span class="comment">//匹配ip地址</span></div><div class="line">/^(\w-*\.*)+@(\w-?)+(\.\w&#123;<span class="number">2</span>,&#125;)+$/  <span class="comment">//匹配邮箱</span></div><div class="line">/^(\d&#123;<span class="number">14</span>&#125;|\d&#123;<span class="number">17</span>&#125;)(\d|[xX])$/  <span class="comment">//匹配身份证</span></div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://webharry.github.io/2017/08/23/gulp-dev/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -293,7 +444,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-23T14:02:00+08:00">
                 2017-08-23
@@ -571,7 +722,7 @@ gulp.task(&apos;default&apos;,[&apos;serve&apos;]);//default 依赖serve
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-22T18:20:26+08:00">
                 2017-08-22
@@ -803,7 +954,7 @@ gulp.task(&apos;default&apos;,[&apos;serve&apos;]);//default 依赖serve
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T18:25:02+08:00">
                 2017-08-14
@@ -958,7 +1109,7 @@ gulp.task(&apos;default&apos;,[&apos;server&apos;],function() {
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T18:14:25+08:00">
                 2017-08-14
@@ -1274,7 +1425,7 @@ return &apos;|doc|docx|jpg|png|pdf|&apos;.indexOf(type) !== -1;
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-20T10:05:20+08:00">
                 2017-07-20
@@ -1477,7 +1628,7 @@ gulp.task(&apos;sass&apos;,function(){
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-18T20:17:28+08:00">
                 2017-07-18
@@ -1729,7 +1880,7 @@ module.exports = config;
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-08T23:25:27+08:00">
                 2017-06-08
@@ -1887,7 +2038,7 @@ l  select as label for (key ,value) in object
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-11T14:50:17+08:00">
                 2017-03-11
@@ -2130,7 +2281,7 @@ div {
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-05T07:34:13+08:00">
                 2017-03-05
@@ -2323,8 +2474,8 @@ app.controller(&quot;CtrlName&quot;, function($scope) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -2336,8 +2487,8 @@ app.controller(&quot;CtrlName&quot;, function($scope) {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2396,7 +2547,7 @@ app.controller(&quot;CtrlName&quot;, function($scope) {
 
 
   <div class="powered-by">
-    Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+    Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
   </div>
 
   <span class="post-meta-divider">|</span>
