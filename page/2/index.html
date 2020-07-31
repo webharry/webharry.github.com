@@ -197,7 +197,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -207,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -264,6 +264,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://webharry.github.io/2017/11/24/数组交集-并集/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yangjie">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Harry的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/24/数组交集-并集/" itemprop="url">数组交集/并集</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-24T18:11:04+08:00">
+                2017-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/11/24/数组交集-并集/" class="leancloud_visitors" data-flag-title="数组交集/并集">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天用到处理数组交集的问题，顺手总结一下用原生API处理数组交集/并集的方法。</p>
+<p>首先介绍连个原生js方法：</p>
+<h3 id="1-Array-prototype-filter-方法"><a href="#1-Array-prototype-filter-方法" class="headerlink" title="1.Array.prototype.filter()方法"></a>1.Array.prototype.filter()方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">array.filter(<span class="function"><span class="keyword">function</span>(<span class="params">currentValue,index,arr</span>), <span class="title">thisValue</span>)</span></div></pre></td></tr></table></figure>
+<p>currentValuex是当前元素，<br>index,当前元素下标，<br>arr当当期数组对象。  </p>
+<p>filter()方法接收一个函数，和一个可选值thisValue，返回符合条件的一个新数组。  </p>
+<p>实例<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = [<span class="number">345</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> b = o.filter(<span class="function"><span class="keyword">function</span>(<span class="params">cur</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> cur &gt; <span class="number">40</span>;</div><div class="line">&#125;)<span class="comment">//b = [345]</span></div></pre></td></tr></table></figure></p>
+<h3 id="2-Array-prototype-reduce-方法"><a href="#2-Array-prototype-reduce-方法" class="headerlink" title="2.Array.prototype.reduce()方法"></a>2.Array.prototype.reduce()方法</h3><p>array.reduce(function(total, currentValue, currentIndex, arr), initialValue)</p>
+<p>reduce()方法接收一个计数器函数和initialValue初始值（可选）  </p>
+<p>其中，函数的参数<br>total结果值, currentValue当前元素, currentIndex当前元素索引值, arr当期数组对象<br>实例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> sum = a.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">res,cur,index</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> res + cur</div><div class="line">&#125;)<span class="comment">//3</span></div></pre></td></tr></table></figure></p>
+<h3 id="多数组交集"><a href="#多数组交集" class="headerlink" title="多数组交集"></a>多数组交集</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/* 求多个数组交集</span></div><div class="line">* @param arr [[1,,,],[b,,,],,,] 数组集合</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">intersection</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> result = arr[<span class="number">0</span>];</div><div class="line">    arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">res,cur,index</span>)</span>&#123;</div><div class="line">        result = result.filter(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>)</span>&#123;</div><div class="line">            <span class="keyword">return</span> cur.indexOf(n)!=<span class="number">-1</span>;</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> result；</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">11</span>],[<span class="number">11</span>,<span class="number">11</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>]];</div><div class="line"><span class="keyword">var</span> res = intersection(a);</div><div class="line"><span class="built_in">console</span>.log(res);<span class="comment">//[1,2,11]</span></div></pre></td></tr></table></figure>
+<h3 id="多数组并集"><a href="#多数组并集" class="headerlink" title="多数组并集"></a>多数组并集</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.concat.apply([], <span class="built_in">arguments</span>)</div><div class="line">&#125;</div><div class="line">merge(arr1,arr2,arr3,...)</div><div class="line"><span class="keyword">var</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>],</div><div class="line">arr2 = [<span class="number">3</span>],</div><div class="line">arr3 = [<span class="number">2</span>];</div><div class="line"><span class="keyword">var</span> union = merge(arr1,arr2,arr3)<span class="comment">//[1,2,3,2]</span></div></pre></td></tr></table></figure>
+<h3 id="ES7有更简洁的方法"><a href="#ES7有更简洁的方法" class="headerlink" title="ES7有更简洁的方法"></a>ES7有更简洁的方法</h3><h3 id="交集"><a href="#交集" class="headerlink" title="交集"></a>交集</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = [<span class="number">1</span>,<span class="number">2</span>]</div><div class="line"><span class="keyword">let</span> b = [<span class="number">2</span>,<span class="number">3</span>]</div><div class="line"><span class="keyword">let</span> intersection = a.filter(<span class="function"><span class="params">v</span> =&gt;</span> b.includes(v))<span class="built_in">console</span>.log(intersection)<span class="comment">//[2]</span></div></pre></td></tr></table></figure>
+<h3 id="并集"><a href="#并集" class="headerlink" title="并集"></a>并集</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = [<span class="number">1</span>]</div><div class="line"><span class="keyword">let</span> b = [<span class="number">2</span>]</div><div class="line"><span class="keyword">let</span> union = a.concat(b.filter(<span class="function"><span class="params">v</span> =&gt;</span> !a.includes(v)))</div><div class="line"><span class="built_in">console</span>.log(union)<span class="comment">//[1,2]</span></div></pre></td></tr></table></figure>
+<h3 id="判断元素是否在数组中"><a href="#判断元素是否在数组中" class="headerlink" title="判断元素是否在数组中"></a>判断元素是否在数组中</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** 判断参数值是否在数组中</span></div><div class="line">   * @param id 参数值</div><div class="line">   * @param source 源数组</div><div class="line">   */</div><div class="line">  <span class="keyword">var</span> inArray = <span class="function"><span class="keyword">function</span> (<span class="params">id, source</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> inFlag = <span class="literal">false</span>;</div><div class="line">    source.map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (id == item) &#123;</div><div class="line">        inFlag = <span class="literal">true</span>;</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> inFlag;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//使用</span></div><div class="line">  <span class="keyword">var</span> id = <span class="number">1</span>;</div><div class="line">  <span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>];</div><div class="line">  <span class="keyword">var</span> isInArray = inArray(id,arr);<span class="comment">//true</span></div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://webharry.github.io/2017/10/24/jsonp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -293,7 +436,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-24T20:47:22+08:00">
                 2017-10-24
@@ -319,7 +462,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -428,7 +571,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-23T15:34:57+08:00">
                 2017-10-23
@@ -454,7 +597,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -563,7 +706,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-12T10:30:14+08:00">
                 2017-10-12
@@ -589,7 +732,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -753,7 +896,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-27T15:50:45+08:00">
                 2017-09-27
@@ -779,7 +922,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -907,7 +1050,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-26T19:57:25+08:00">
                 2017-09-26
@@ -933,7 +1076,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -1047,7 +1190,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-12T20:53:40+08:00">
                 2017-09-12
@@ -1073,7 +1216,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -1179,7 +1322,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-11T20:01:11+08:00">
                 2017-09-11
@@ -1205,7 +1348,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -1314,7 +1457,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-01T11:31:38+08:00">
                 2017-09-01
@@ -1340,7 +1483,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -1460,7 +1603,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T19:57:31+08:00">
                 2017-08-30
@@ -1486,7 +1629,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -1534,284 +1677,6 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> e = <span class="regexp">/do(es)?/g</span>;</div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//6</span></div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//10</span></div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//14</span></div></pre></td></tr></table></figure>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> e = <span class="regexp">/do(es)?/</span>;</div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//0</span></div><div class="line"><span class="built_in">console</span>.log(e.test(<span class="string">"ssdoesdoesdoes"</span>));</div><div class="line"><span class="built_in">console</span>.log(e.lastIndex);</div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//0</span></div></pre></td></tr></table></figure>
 <h3 id="常用的正则校验"><a href="#常用的正则校验" class="headerlink" title="常用的正则校验"></a>常用的正则校验</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/^<span class="number">1</span>[<span class="number">34578</span>]\d&#123;<span class="number">9</span>&#125;$/ <span class="comment">//匹配手机号</span></div><div class="line">/^(([<span class="number">0</span>\+]\d&#123;<span class="number">2</span>,<span class="number">3</span>&#125;-)?(<span class="number">0</span>\d&#123;<span class="number">2</span>,<span class="number">3</span>&#125;)-)(\d&#123;<span class="number">7</span>,<span class="number">8</span>&#125;)(-(\d&#123;<span class="number">3</span>,&#125;))?$/ <span class="comment">//匹配座机号</span></div><div class="line">/^[<span class="number">0</span><span class="number">-9</span>]\d*$/  <span class="comment">//匹配正整数</span></div><div class="line">/^\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;\.\d&#123;<span class="number">1</span>,<span class="number">3</span>&#125;$/ <span class="comment">//匹配ip地址</span></div><div class="line">/^(\w-*\.*)+@(\w-?)+(\.\w&#123;<span class="number">2</span>,&#125;)+$/  <span class="comment">//匹配邮箱</span></div><div class="line">/^(\d&#123;<span class="number">14</span>&#125;|\d&#123;<span class="number">17</span>&#125;)(\d|[xX])$/  <span class="comment">//匹配身份证</span></div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://webharry.github.io/2017/08/23/gulp-dev/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yangjie">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Harry的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/23/gulp-dev/" itemprop="url">gulp构建一个项目</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-23T14:02:00+08:00">
-                2017-08-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/08/23/gulp-dev/" class="leancloud_visitors" data-flag-title="gulp构建一个项目">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>介绍：这篇文章总结了使用gulp构建一个项目的详细过程。包括开发环境搭建，构建项目并用于生产部署。  </p>
-<p>gulp自动化构建工具具备以下特点：<br>基于流、任务化<br>常用API：src、dest、watch、task、pipe</p>
-<h2 id="一．安装"><a href="#一．安装" class="headerlink" title="一．安装"></a>一．安装</h2><p>1.安装gulp：(注意这里默认大家已经安装了npm和nodejs)<br>新建项目文件，cmd切换到项目目录下，这里我新建了项目文件webapp  </p>
-<p>安装全局gulp：</p>
-<pre><code>npm i -g gulp
-</code></pre><p>2.接下来安装node依赖文件<br>首先用npm初始化项目配置文件：</p>
-<pre><code>npm init
-</code></pre><p>然后命令行一直回车就行，配置文件之后可以更改</p>
-<p>3.作为项目的开发依赖（devDependencies）安装：在当前目录安装gulp<br>在当前目录安装gulp:</p>
-<pre><code>npm i --save-dev gulp
-</code></pre><p>–save-dev的意思是将当前文件保存到配置文件当中，nodejs模块保存到packge.json文件当中，当我们需要项目保存到git仓库的时候，只需要保存packge.json文件到git仓库就行。当别人需要编译你的项目，只要npm i就可以拿到你的项目配置信息。</p>
-<p>我们可以看下package.json文件：在依赖模块添加了gulp信息</p>
-<p>然后我们看项目文件夹webapp的node_modules文件下多了个gulp文件夹，这个就是我们刚添加的gulp模块</p>
-<p>4.扩展插件–在当前项目文件webapp目录下，安装gulp依赖文件。<br>安装命令：</p>
-<pre><code>npm i --save--dev 插件名称
-</code></pre><p>需要安装的gulp插件：</p>
-<pre><code>gulp-clean  
-gulp-concat（文件合并）  
-gulp-connect  
-gulp-minify-html（html压缩）  
-gulp-minify-css（CSS压缩）
-gulp-cssmin（CSS压缩）（任选一个）  
-gulp-jshint（JS代码检查）
-gulp-imagemin（压缩图片）  
-gulp-less（编译Less）    
-gulp-sass（编译Sass）
-gulp-load-plugins  
-gulp-uglify （JS压缩）
-gulp-livereload（自动刷新）
-open
-</code></pre><p>比如说：</p>
-<pre><code>npm i --save--dev gulp-clean
-</code></pre><p>如果你不想一个个安装，有个批量安装的小窍门：</p>
-<pre><code>npm i --save--dev gulp-clean gulp-concat gulp-connect ...
-</code></pre><p>各个模块之间以空格隔开。<br>安装好之后呢，我们在package.json文件里可以看到这些依赖插件</p>
-<p>5.进行配置<br>在webapp项目根目录下，新建gulpfile.js文件，在文件中写入如下配置代码：</p>
-<pre><code>var gulp = require(&apos;gulp&apos;);          //引入模块
-var $ = require(&apos;gulp-load-plugins&apos;);  //有了这个模块，其他的模块可以以$符号引入
-var open = require(&apos;open&apos;);         //引入open
-
-var app = {//声明一个全局变量，定义项目的路径
-    srcPath : &apos;src/&apos;,      //源文件
-    devPath : &apos;build/&apos;,   //开发环境--整合之后的路径
-    prdPath : &apos;dist/&apos;     //生成部署
-};
-</code></pre><p>6.拷贝命令<br>定义任务的API，第二个参数是一个回调函数，在回调函数里我们写入逻辑操作代码</p>
-<pre><code>gulp.task(&apos;任务名&apos;,function () {
-    gulp.路径(路径)        //读取文件
-    .pipe(...操作文件)
-    .pipe(gulp.dest(目录))    //生成文件
-})
-</code></pre><h2 id="二．使用"><a href="#二．使用" class="headerlink" title="二．使用"></a>二．使用</h2><p>应用实例：<br>1.拷贝HTML：<br>a.新建文件夹src存放源代码</p>
-<p>b.新建完之后，我们在gulpfile.js文件下敲入如下代码进行拷贝html：（前提之前已配置好各个路径）</p>
-<pre><code>gulp.task(&apos;html&apos;,function () {
-    gulp.src(app.srcPath + &apos;**/*.html&apos;)
-    .pipe(gulp.dest(app.devPath))  //pipe是一个API  写文件的API--dest 拷贝到app.devPath + &apos;vendeor&apos;
-    .pipe(gulp.dest(app.prdPath))     //生成
-    .pipe($.connect.reload());//通知服务器刷新浏览器，ie8不支持
-})
-</code></pre><p>c.可以测试下，命令行打开，在项目路径下，输入</p>
-<pre><code>gulp html
-</code></pre><p>d.执行成功后可以看到项目文件下生成了新的文件夹build</p>
-<p>2.拷贝第三方依赖库lib：前提是安装好bower并且用bower安装了第三方依赖文件（本例使用Bower安装了Angular，在bower_componets文件下）<br>题外话：全局安装bower：</p>
-<pre><code>npm install bower -g
-</code></pre><p>Bower安装第三方依赖Angular:</p>
-<pre><code>bower install --save angular
-</code></pre><p>开始拷贝JS：<br>a.在gulpfile.js文件下敲入如下代码进行拷贝js：（前提之前已配置好各个路径）</p>
-<pre><code>gulp.task(&apos;lib&apos;,function () {
-    gulp.src(&apos;bower_components/**/*.js&apos;)
-    .pipe(gulp.dest(app.devPath + &apos;vendor&apos;))
-    .pipe(gulp.dest(app.prdPath + &apos;vendor&apos;))
-    .pipe($.connect.reload());//通知服务器刷新浏览器，ie8不支持
-})
-</code></pre><p>b.命令行进入项目路径，执行命令：</p>
-<pre><code>gulp lib
-</code></pre><p>c.如果在build目录下生成vendor文件夹及其angular文件，表示成功。</p>
-<p>3.拷贝CSS<br>a.src目录新建目录style，新建文件index.less和1.less，在两个文件编写测试代码。</p>
-<p>b.然后在gulpfile.js文件新建任务：</p>
-<pre><code>gulp.task(&apos;less&apos;,function () {
-    gulp.src(app.srcPath + &apos;style/index.less&apos;)
-        .pipe($.less())                     //别忘了less后的括号
-        .pipe(gulp.dest(app.devPath + &apos;css&apos;))
-        .pipe($.cssmin())                  //压缩
-        .pipe(gulp.dest(app.prdPath + &apos;css&apos;))
-        .pipe($.connect.reload());//通知服务器刷新浏览器，ie8不支持
-});
-</code></pre><p>c.运行，在命令行输入</p>
-<pre><code>gulp less
-</code></pre><p>4.拷贝JS<br>同样的套路：<br>a.src下新建目录script，在script里新建文件1.js和2.js，随便写点测试代码。</p>
-<p>b.新建gulp任务：<br>在gulpfile.js文件下添加如下一段代码即可：</p>
-<pre><code>gulp.task(&apos;js&apos;,function () {
-    gulp.src(app.srcPath + &apos;script/**/*.js&apos;)
-        .pipe($.concat(&apos;index.js&apos;))            //生成
-        .pipe(gulp.dest(app.devPath + &apos;js&apos;))    //写入开发环境
-        .pipe($.uglify())                    //压缩
-        .pipe(gulp.dest(app.prdPath + &apos;js&apos;))    //部署到生产环境
-        .pipe($.connect.reload());//通知服务器刷新浏览器，ie8不支持
-});
-</code></pre><p>c.运行<br>在命令行输入：</p>
-<pre><code>gulp js
-</code></pre><p>d.查看运行结果，在生产环境dist目录下生成js文件夹及其index.js文件。</p>
-<p>5.拷贝image<br>套路是一样的啊，<br>a.在src里新建image目录，在该目录里新建一张图片，比如1.png<br>b.新建gulp任务，在gulpfile.js文件下添加如下代码：</p>
-<pre><code>gulp.task(&apos;image&apos;,function () {
-    gulp.src(app.srcPath + &apos;image/**/*&apos;)           //读取文件
-        .pipe(gulp.dest(app.devPath + &apos;image&apos;))        //拷贝到开发环境
-        .pipe($.imagemin())                     //压缩图片
-        .pipe(gulp.dest(app.prdPath + &apos;image&apos;))    //部署到生产环境
-        .pipe($.connect.reload());//通知服务器刷新浏览器，ie8不支持
-});
-</code></pre><p>c.项目路径下运行下：</p>
-<pre><code>gulp image
-</code></pre><p>d.查看运行结果，在生产环境目录dist里生产image目录及其文件</p>
-<p>6.在我们部署到生产环境之后，往往需要清除build和dist 目录，避免出现旧的影响新的。这时候就需要新建一个清除任务：<br>在gulpfile.js文件下添加如下代码块：</p>
-<pre><code>gulp.task(&apos;clean&apos;,function () {  //清除
-    gulp.src([app.devPath,app.prdPath]) //要删除目录
-    .pipe($.clean());
-});
-</code></pre><p>运行：</p>
-<pre><code>gulp clean
-</code></pre><p>7新建gulp总任务。在我们真正部署的时候，往往通过新建一个gulp总任务来执行之前的所有打包压缩任务，减少繁琐操作，代码如下：</p>
-<pre><code>gulp.task(&apos;build&apos;,[&apos;image&apos;,&apos;js&apos;,&apos;less&apos;,&apos;lib&apos;,&apos;html&apos;,&apos;json&apos;]);  //总任务  执行gulp build即可
-</code></pre><p>运行：</p>
-<pre><code>gulp build
-</code></pre><p>8新建服务—-自动化启动总任务build和服务器<br>在gulpfile.js文件下，敲入如下新建服务代码：</p>
-<pre><code>//新建服务
-gulp.task(&apos;serve&apos;,[&apos;build&apos;],function () {
-    $.connect.server({        //启动一个服务器
-        root:[app.devPath],   //从开发目录下读取
-        livereload:true,      //自动刷新浏览器，ie不支持
-        port:1234           //端口
-    });
-    open(&apos;http://localhost:1234&apos;);   //自动打开网址，打开浏览器
-
-    //监听
-    gulp.watch(&apos;bower_components/**/*&apos;,[&apos;lib&apos;]);
-    gulp.watch(app.srcPath + &apos;**/*.html&apos;,[&apos;html&apos;]);
-    gulp.watch(app.srcPath + &apos;data/**/*.json&apos;,[&apos;json&apos;]);
-    gulp.watch(app.srcPath + &apos;style/**/*.less&apos;,[&apos;less&apos;]);
-    gulp.watch(app.srcPath + &apos;script/**/*.js&apos;,[&apos;js&apos;]);
-    gulp.watch(app.srcPath + &apos;image/**/*&apos;,[&apos;image&apos;]);
-});
-</code></pre><p>8.1有一个小技能，我们可以新建一个gulp默认任务，让它运行gulp的时候自动启动服务serve：</p>
-<pre><code>//建立默认启动任务
-gulp.task(&apos;default&apos;,[&apos;serve&apos;]);//default 依赖serve
-</code></pre><p>可以测试一下，命令行敲入：</p>
-<pre><code>gulp
-</code></pre><p>然后等待运行结束，浏览器会自动打开网址：<a href="http://localhost:1234/" target="_blank" rel="noopener">http://localhost:1234/</a><br>你可以在src目录下的index.html页面敲入代码：hello world!<br>此时你会发现网页自动刷新了</p>
-<p>当一个程序员打出hello world时就像中乐透一样哈哈:)</p>
 
           
         
@@ -1897,8 +1762,8 @@ gulp.task(&apos;default&apos;,[&apos;serve&apos;]);//default 依赖serve
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -1910,8 +1775,8 @@ gulp.task(&apos;default&apos;,[&apos;serve&apos;]);//default 依赖serve
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1953,7 +1818,7 @@ gulp.task(&apos;default&apos;,[&apos;serve&apos;]);//default 依赖serve
 <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1970,7 +1835,7 @@ gulp.task(&apos;default&apos;,[&apos;serve&apos;]);//default 依赖serve
 
 
   <div class="powered-by">
-    Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+    Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
   </div>
 
   <span class="post-meta-divider">|</span>
