@@ -94,20 +94,20 @@
 
 
 
-<meta name="description" content="今天来看下JavaScript中是如何实现继承的？es5和es6在继承实现上有什么区别？带着这两个问题，进入下文。   我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章”从instanceof浅谈原型链”。   es5在es5中继承是这样定义的：子类的原型是">
+<meta name="description" content="今天来看下JavaScript中是如何实现继承的？es5和es6在继承实现上有什么区别？带着这两个问题，进入下文。   我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章从instanceof浅谈原型链。   es5在es5中继承是这样定义的：子类的原型是父类">
 <meta name="keywords" content="frontend,JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈ES5，ES6继承">
 <meta property="og:url" content="https://webharry.github.io/2017/12/31/inherit/index.html">
 <meta property="og:site_name" content="Harry的博客">
-<meta property="og:description" content="今天来看下JavaScript中是如何实现继承的？es5和es6在继承实现上有什么区别？带着这两个问题，进入下文。   我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章”从instanceof浅谈原型链”。   es5在es5中继承是这样定义的：子类的原型是父类的一个实例，以此子类可以继承父类的原型上的属性和方法，即继承是通过原型链实现">
+<meta property="og:description" content="今天来看下JavaScript中是如何实现继承的？es5和es6在继承实现上有什么区别？带着这两个问题，进入下文。   我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章从instanceof浅谈原型链。   es5在es5中继承是这样定义的：子类的原型是父类的一个实例，以此子类可以继承父类的原型上的属性和方法，即继承是通过原型链实现。看">
 <meta property="og:locale" content="English">
 <meta property="og:image" content="https://upload.cc/i/oiYBmQ.png">
 <meta property="og:image" content="https://upload.cc/i/qYNUJS.png">
-<meta property="og:updated_time" content="2020-12-24T09:50:39.015Z">
+<meta property="og:updated_time" content="2020-12-24T09:53:26.689Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈ES5，ES6继承">
-<meta name="twitter:description" content="今天来看下JavaScript中是如何实现继承的？es5和es6在继承实现上有什么区别？带着这两个问题，进入下文。   我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章”从instanceof浅谈原型链”。   es5在es5中继承是这样定义的：子类的原型是父类的一个实例，以此子类可以继承父类的原型上的属性和方法，即继承是通过原型链实现">
+<meta name="twitter:description" content="今天来看下JavaScript中是如何实现继承的？es5和es6在继承实现上有什么区别？带着这两个问题，进入下文。   我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章从instanceof浅谈原型链。   es5在es5中继承是这样定义的：子类的原型是父类的一个实例，以此子类可以继承父类的原型上的属性和方法，即继承是通过原型链实现。看">
 <meta name="twitter:image" content="https://upload.cc/i/oiYBmQ.png">
 
 
@@ -349,7 +349,7 @@
 
       
         <p>今天来看下JavaScript中是如何实现继承的？es5和es6在继承实现上有什么区别？带着这两个问题，进入下文。  </p>
-<p>我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章”从instanceof浅谈原型链”。  </p>
+<p>我们都知道，在JavaScript中，继承是通过原型链来实现的。原型链的知识请自行参考文章<a href="https://webharry.github.io/2017/12/31/prototype/">从instanceof浅谈原型链</a>。  </p>
 <h3 id="es5"><a href="#es5" class="headerlink" title="es5"></a>es5</h3><p>在es5中继承是这样定义的：子类的原型是父类的一个实例，以此子类可以继承父类的原型上的属性和方法，即继承是通过原型链实现。看图：<br><img src="https://upload.cc/i/oiYBmQ.png" alt="es5"><br>看代码:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Super</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.property = <span class="literal">true</span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Super.prototype.getSuperValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.property;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Sub</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.subproperty = <span class="literal">false</span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//继承了Super</span></div><div class="line">Sub.prototype = <span class="keyword">new</span> Super();</div><div class="line"></div><div class="line">Sub.prototype.getSubValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.subproperty;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> Sub();</div><div class="line"><span class="built_in">console</span>.log(instance.getSuperValue());<span class="comment">//true</span></div></pre></td></tr></table></figure></p>
 <p>代码中，定义了两个构造函数Super和Sub,以及他们各自的属性和方法。我们注意到一句代码，Sub.prototype = new Super();Sub的原型实际上是Super类型的一个实例，这样Sub就能够使用Super的方法和属性，即实现了继承。    </p>
 <p>它们的关系可以进一步检验：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Sub.prototype.constructor == Sub;//true</div><div class="line">Sub.prototype.__proto__ == Super.prototype;//true</div><div class="line">instance.__proto__ == Sub.prototype;//true</div><div class="line">instance.constructor == Sub;//true</div></pre></td></tr></table></figure></p>
